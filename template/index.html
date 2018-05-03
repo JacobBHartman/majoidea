@@ -58,27 +58,34 @@
       <div class="container search">
         <img class="img img-fluid mb-5 d-block mx-auto" src="img/profile.png" alt="">
         <h2 class="text-uppercase mb-0">Find the shortest paths between</h2>
-        <div class="input-container">
-          <input class="input" name="person1" type="text" placeholder="Kevin Becon"></input>
+        <form class="input-container" id="input1" method="POST" action="/">
+          <input class="input" name="person1" type="text" placeholder="Kevin Bacon"></input>
           <h3 class="in-between">to</h3>
           <input class="input" name="person2" type="text" placeholder="Felicity Jones"></input>
-        </div>
-        <button class="btn button btn-xl btn-outline-light">Go</button>
+        </form>
+        <button form="input1" type="submit" value="Submit" class="btn button btn-xl btn-outline-light">Go</button>
       </div>
     </section>
 
-    <section id="display-results">
+    <section id="display-results" display="{% "hidden" if path else "show" %}">
       <div class="container">
-
+{% if path %}
       <div class="result">
-          <h3>There are two steps between Keven Becan and Felicity Jones:</h3>
+          <h3>There are two steps between {% path['source'] %} and {% path['target'] %}:</h3>
           <div class="timeline">
-            <person><img class="image" src="img/Kevin.jpg"><h5>Kevin Becon</h5></person>
-            <movie><svg><rect width="250" height="2"</svg><h5>"Apollo 13"</h5><img src="img/apollo.jpg"></movie>
-            <person><img class="image" src="img/tom.jpg"><h5>Tom Hanks</h5></person>
-            <movie><svg><rect width="250" height="2"</svg><h5>"Inferno"</h5><img src="img/inferno.jpg"></movie>
-            <person><img class="image" src="img/felicity.jpg"><h5>Felicity Jones</h5></person>
+            {% with source = path['source'] %}
+            {% for x in len(path['returns']) %}
+            {% for result in path['returns'] %}
+            {% if result['source'] == source %}
+            <person><img class="image" src="{% result['source_actor_pic'] %}"><h5>{% result['source_actor'] %}</h5></person>
+            <movie><svg><rect width="250" height="2"</svg><h5>"{% result['id'] %}"</h5><img src="{% result['movie_poster'] %}"></movie>
+            <person><img class="image" src="{% result['target_actor_pic'] %}"><h5>{% result['target_actor'] %}</h5></person>
+              {% source = result['target'] %}
+            {% endif %}
+            {% endfor %}
+            {% endfor %}
          </div>
+      {% endif %}
       </div>
 
       <div class="divider"></div>
