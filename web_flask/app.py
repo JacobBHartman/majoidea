@@ -49,7 +49,7 @@ def input_email():
         email_ad = Email(**post_reqs)
         storage.new(email_ad)
         storage.save()
-        return jsonify(email_ad)
+        return (str(email_ad))
     else:
        return make_request(jsonify({"error": "Not a request"}))
 
