@@ -13,7 +13,7 @@ class Actor(BaseModel, Base):
     '''
     __tablename__ = "actors"
     actor_id = Column(String(13), nullable=False)
-    actor_name = Column(String(40), nullable=False)
+    actor_name = Column(String(41), nullable=False)
     stringJson = Column(Text, nullable=False)
 
     def __str__(self):

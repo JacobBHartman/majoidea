@@ -37,7 +37,11 @@ class DBStorage:
         res = [o for o in self.__session.query(Search).filter(
             Search.source_actor_id == source_id,
             Search.target_actor_id == target_id
-        )][0]
+        )]
+        try:
+            res = res[0]
+        except:
+            return None
         if res:
             return res
         else:

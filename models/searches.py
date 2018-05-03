@@ -14,8 +14,8 @@ class Search(BaseModel, Base):
         repetitive searches
     '''
     __tablename__ = "searches"
-    source_actor_id = Column(String(13), nullable=False)
-    target_actor_id = Column(String(13), nullable=False)
+    source_actor_name = Column(String(41), nullable=False)
+    target_actor_name = Column(String(41), nullable=False)
     stringJson = Column(Text, nullable=False)
 
     def __str__(self):
