@@ -17,3 +17,18 @@ class Movie(BaseModel, Base):
 
     def __str__(self):
         return  "{}".format(json.loads(self.stringJson))
+
+    @property
+    def name(self):
+        """
+            Return name of movie
+        """
+        return stringJson["title"]
+
+
+    @property
+    def poster(self):
+        """
+            Return link to movie poster
+        """
+        return stringJson["poster"]["large"]

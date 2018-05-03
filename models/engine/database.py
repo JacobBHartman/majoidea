@@ -8,6 +8,7 @@ from models.searches import Search
 from models.movies import Movie
 from models.actors import Actor
 from models.base_model import Base
+from sqlalchemy import or_
 import json
 
 
@@ -33,20 +34,34 @@ class DBStorage:
         return [o for o in self.__session.query(object)]
 
     def query_searches(self, source_id, target_id):
-        return [str(o) for o in self.__session.query(Search).filter(
+        res = [o for o in self.__session.query(Search).filter(
             Search.source_actor_id == source_id,
             Search.target_actor_id == target_id
-        )]
+        )][0]
+        if res:
+            return res
+        else:
+            return None
 
-    def query_actor(self, actor_id):
-        res = [o.stringJson for o in self.__session.query(Actor).filter(Actor.actor_id == actor_id)][0]
+    def query_actor(self, actor_id="", actor_name=""):
+        res = [o.stringJson for o in self.__session.query(Actor).filter(or_(
+            Actor.actor_id == actor_id,
+            Actor.actor_name == actor_name))]
+        try:
+            res = res[0]
+        except:
+            return None
         if res:
             return json.loads(res)
         else:
             return None
     
     def query_movie(self, movie_id):
-        res = [o.stringJson for o in self.__session.query(Movie).filter(Movie.movie_id == movie_id)][0]
+        res = [o.stringJson for o in self.__session.query(Movie).filter(Movie.movie_id == movie_id)]
+        try:
+            res = res[0]
+        except:
+            return None
         if res:
             return json.loads(res)
         else:
