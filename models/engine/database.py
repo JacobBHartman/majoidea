@@ -33,10 +33,10 @@ class DBStorage:
     def query_object(self, object):
         return [o for o in self.__session.query(object)]
 
-    def query_searches(self, source_id, target_id):
+    def query_searches(self, source_name, target_name):
         res = [o for o in self.__session.query(Search).filter(
-            Search.source_actor_id == source_id,
-            Search.target_actor_id == target_id
+            Search.source_actor_name == source_name,
+            Search.target_actor_name == target_name
         )]
         try:
             res = res[0]
